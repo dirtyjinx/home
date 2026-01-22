@@ -293,6 +293,16 @@ html {
 
 /* Responsive */
 @media (max-width: 768px) {
+    /* Hero en mobile : afficher toute l'image avec bandes noires */
+    .hero-section {
+        background-attachment: scroll;
+        background-size: contain;
+        background-position: center 40vh;
+        background-color: #010101;
+        align-items: flex-start;
+        padding-top: 30vh;
+    }
+
     .hero-title {
         font-size: 3rem;
     }
@@ -312,6 +322,15 @@ html {
 }
 
 @media (max-width: 576px) {
+    .hero-section {
+        background-attachment: scroll;
+        background-size: contain;
+        background-position: center 40vh;
+        background-color: #010101;
+        align-items: flex-start;
+        padding-top: 30vh;
+    }
+
     .hero-title {
         font-size: 2rem;
     }
