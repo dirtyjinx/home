@@ -1,0 +1,205 @@
+// Configuration et données
+let config = null;
+let galleryMedia = [];
+let currentMediaIndex = 0;
+
+// Chargement de la configuration
+async function loadConfig() {
+    try {
+        const response = await fetch('config.json');
+        config = await response.json();
+        initializePage();
+    } catch (error) {
+        console.error('Erreur lors du chargement de la configuration:', error);
+    }
+}
+
+// Initialisation de la page
+function initializePage() {
+    // Injecter les données du groupe
+    document.getElementById('bandName').textContent = config.band.name;
+    document.getElementById('bandTagline').textContent = config.band.tagline;
+    document.getElementById('contactBandName').textContent = config.band.name;
+    document.getElementById('footerBandName').textContent = config.band.name;
+
+    // Hero background
+    const heroSection = document.getElementById('hero');
+    heroSection.style.backgroundImage = `url('${config.hero.backgroundImage}')`;
+
+    // Contact
+    document.getElementById('contactEmail').textContent = config.contact.email;
+    document.getElementById('contactEmail').href = `mailto:${config.contact.email}`;
+    document.getElementById('contactPhone').textContent = config.contact.phone;
+    document.getElementById('facebookLink').href = config.contact.social.facebook;
+    document.getElementById('instagramLink').href = config.contact.social.instagram;
+
+    // Charger les musiciens
+    loadMusicians();
+
+    // Charger la galerie
+    loadGallery();
+}
+
+// Charger les musiciens
+function loadMusicians() {
+    const musiciansGrid = document.getElementById('musicians-grid');
+
+    config.members.forEach(member => {
+        const col = document.createElement('div');
+        col.className = 'col-md-4';
+        col.innerHTML = `
+            <div class="musician-card">
+                <img src="${member.photo}" alt="${member.name}" class="musician-photo">
+                <h3 class="musician-name">${member.name}</h3>
+                <p class="musician-instrument">${member.instrument}</p>
+                <p class="musician-bio">${member.bio}</p>
+            </div>
+        `;
+        musiciansGrid.appendChild(col);
+    });
+}
+
+// Charger la galerie
+async function loadGallery() {
+    // Liste des médias à afficher
+    const images = [
+        'caddy.jpg',
+        'condette01.jpg',
+        'hoverport.jpg',
+        'moon.jpg',
+        'touquet01.jpg',
+        'touquet03.jpg'
+    ];
+
+    const videos = [
+        'gimmick.mp4',
+        'growingup.mp4'
+    ];
+
+    // Créer la liste des médias
+    galleryMedia = [];
+
+    // Ajouter les images
+    images.forEach(img => {
+        if (!config.gallery.excludeImages.includes(img)) {
+            galleryMedia.push({
+                type: 'image',
+                src: `${config.gallery.imagesFolder}/${img}`,
+                alt: img.replace(/\.[^/.]+$/, '')
+            });
+        }
+    });
+
+    // Ajouter les vidéos
+    videos.forEach(vid => {
+        galleryMedia.push({
+            type: 'video',
+            src: `${config.gallery.videosFolder}/${vid}`,
+            alt: vid.replace(/\.[^/.]+$/, '')
+        });
+    });
+
+    // Mélanger les médias pour un effet plus dynamique
+    galleryMedia = shuffleArray(galleryMedia);
+
+    // Créer les éléments de la galerie
+    const galleryGrid = document.getElementById('gallery-grid');
+
+    galleryMedia.forEach((media, index) => {
+        const item = document.createElement('div');
+        item.className = 'gallery-item';
+        item.onclick = () => openModal(index);
+
+        if (media.type === 'image') {
+            const img = document.createElement('img');
+            img.src = media.src;
+            img.alt = media.alt;
+            img.loading = 'lazy';
+            item.appendChild(img);
+        } else if (media.type === 'video') {
+            const video = document.createElement('video');
+            video.src = media.src;
+            video.muted = true;
+            video.loop = true;
+            video.playsInline = true;
+            video.onloadeddata = () => {
+                video.play().catch(e => console.log('Autoplay prevented'));
+            };
+            item.appendChild(video);
+        }
+
+        galleryGrid.appendChild(item);
+    });
+
+    // Initialiser Masonry après le chargement des images
+    imagesLoaded(galleryGrid, function() {
+        const masonry = new Masonry(galleryGrid, {
+            itemSelector: '.gallery-item',
+            percentPosition: false,
+            gutter: 15,
+            fitWidth: true
+        });
+
+        // Rafraîchir Masonry après chaque chargement de vidéo
+        const videos = galleryGrid.querySelectorAll('video');
+        videos.forEach(video => {
+            video.addEventListener('loadedmetadata', () => {
+                masonry.layout();
+            });
+        });
+    });
+}
+
+// Mélanger un tableau
+function shuffleArray(array) {
+    const newArray = [...array];
+    for (let i = newArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+    }
+    return newArray;
+}
+
+// Ouvrir la modale
+function openModal(index) {
+    currentMediaIndex = index;
+    showMedia();
+    const modal = new bootstrap.Modal(document.getElementById('mediaModal'));
+    modal.show();
+}
+
+// Afficher le média dans la modale
+function showMedia() {
+    const container = document.getElementById('modalMediaContainer');
+    container.innerHTML = '';
+
+    const media = galleryMedia[currentMediaIndex];
+
+    if (media.type === 'image') {
+        const img = document.createElement('img');
+        img.src = media.src;
+        img.alt = media.alt;
+        img.className = 'img-fluid';
+        container.appendChild(img);
+    } else if (media.type === 'video') {
+        const video = document.createElement('video');
+        video.src = media.src;
+        video.controls = true;
+        video.autoplay = true;
+        video.className = 'w-100';
+        container.appendChild(video);
+    }
+}
+
+// Arrêter les vidéos à la fermeture de la modale
+document.getElementById('mediaModal').addEventListener('hidden.bs.modal', function () {
+    const container = document.getElementById('modalMediaContainer');
+    const video = container.querySelector('video');
+    if (video) {
+        video.pause();
+        video.currentTime = 0;
+    }
+});
+
+// Initialiser au chargement de la page
+document.addEventListener('DOMContentLoaded', loadConfig);
