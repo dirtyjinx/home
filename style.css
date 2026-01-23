@@ -54,8 +54,8 @@ html {
 }
 
 .hero-title {
-    font-size: 5rem;
-    font-weight: 700;
+    font-size: 8rem;
+    font-weight: 800;
     margin-bottom: 1rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
@@ -63,9 +63,10 @@ html {
 }
 
 .hero-tagline {
-    font-size: 1.5rem;
-    font-weight: 300;
-    letter-spacing: 0.05em;
+    font-size: 3rem;
+    font-weight: 600;
+    /* letter-spacing: 0.05em; */
+    text-transform: uppercase;
     animation: fadeInUp 1s ease 0.3s both;
 }
 
@@ -161,10 +162,6 @@ html {
     transition: var(--transition);
 }
 
-.musician-card:hover {
-    transform: translateY(-10px);
-}
-
 .musician-photo {
     width: 200px;
     height: 200px;
@@ -172,13 +169,20 @@ html {
     object-fit: cover;
     margin: 0 auto 1.5rem;
     display: block;
-    border: 4px solid var(--primary-color);
+    border: 3px solid var(--accent-color);
     transition: var(--transition);
 }
 
-.musician-card:hover .musician-photo {
-    border-color: var(--accent-color);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+/* Animations hover uniquement pour desktop */
+@media (hover: hover) {
+    .musician-card:hover {
+        transform: translateY(-10px);
+    }
+
+    .musician-card:hover .musician-photo {
+        border-color: var(--accent-color);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
 }
 
 .musician-name {
@@ -243,12 +247,14 @@ html {
     transform: translateY(-5px);
 }
 
+.social-link i {
+    color: var(--secondary-color);
+}
+
 /* Modal */
 .modal-backdrop.show {
-    opacity: 0.95;
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    background-color: rgba(0, 0, 0, 0.7);
+    opacity: 1;
+    background-color: var(--primary-color);
 }
 
 #mediaModal .modal-dialog {
@@ -258,6 +264,7 @@ html {
     align-items: center;
     justify-content: center;
     min-height: 100vh;
+    height: 100vh;
     pointer-events: none;
 }
 
@@ -266,18 +273,29 @@ html {
     border: none;
     box-shadow: none;
     pointer-events: none;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .modal-body {
     padding: 0;
     pointer-events: none;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #modalMediaContainer {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 50vh;
+    width: 100%;
+    height: 100%;
 }
 
 #modalMediaContainer img,
@@ -291,24 +309,61 @@ html {
     pointer-events: auto;
 }
 
+/* Bouton de fermeture de la modale */
+.modal-close-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background: transparent;
+    border: 2px solid var(--secondary-color);
+    border-radius: 50%;
+    color: var(--secondary-color);
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+    z-index: 1060;
+    pointer-events: auto;
+}
+
+.modal-close-btn:hover {
+    background: var(--secondary-color);
+    color: var(--primary-color);
+    transform: rotate(90deg);
+}
+
+@media (max-width: 576px) {
+    .modal-close-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+        top: 15px;
+        right: 15px;
+    }
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     /* Hero en mobile : afficher toute l'image avec bandes noires */
     .hero-section {
         background-attachment: scroll;
         background-size: contain;
-        background-position: center 40vh;
+        background-position: center bottom;
         background-color: #010101;
         align-items: flex-start;
-        padding-top: 30vh;
+        padding-top: 20vh;
     }
 
     .hero-title {
-        font-size: 3rem;
+        font-size: 5rem;
     }
 
     .hero-tagline {
-        font-size: 1.2rem;
+        font-size: 2rem;
     }
 
     .section-title {
@@ -325,17 +380,17 @@ html {
     .hero-section {
         background-attachment: scroll;
         background-size: contain;
-        background-position: center 40vh;
+        background-position: center 55vh;
         background-color: #010101;
         align-items: flex-start;
-        padding-top: 30vh;
+        padding-top: 20vh;
     }
 
     .hero-title {
-        font-size: 2rem;
+        font-size: 4rem;
     }
 
     .hero-tagline {
-        font-size: 1rem;
+        font-size: 1.5rem;
     }
 }

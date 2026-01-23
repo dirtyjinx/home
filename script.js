@@ -2,6 +2,7 @@
 let config = null;
 let galleryMedia = [];
 let currentMediaIndex = 0;
+let masonryInstance = null;
 
 // Chargement de la configuration
 async function loadConfig() {
@@ -123,7 +124,7 @@ async function loadGallery() {
             video.loop = true;
             video.playsInline = true;
             video.onloadeddata = () => {
-                video.play().catch(e => console.log('Autoplay prevented'));
+                video.play().catch(() => console.log('Autoplay prevented'));
             };
             item.appendChild(video);
         }
@@ -133,7 +134,7 @@ async function loadGallery() {
 
     // Initialiser Masonry après le chargement des images
     imagesLoaded(galleryGrid, function() {
-        const masonry = new Masonry(galleryGrid, {
+        masonryInstance = new Masonry(galleryGrid, {
             itemSelector: '.gallery-item',
             percentPosition: false,
             gutter: 15,
@@ -144,11 +145,38 @@ async function loadGallery() {
         const videos = galleryGrid.querySelectorAll('video');
         videos.forEach(video => {
             video.addEventListener('loadedmetadata', () => {
-                masonry.layout();
+                masonryInstance.layout();
             });
         });
     });
 }
+
+// Fonction debounce pour limiter les appels lors du redimensionnement
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+// Recalculer Masonry lors du redimensionnement
+function refreshMasonry() {
+    if (masonryInstance) {
+        masonryInstance.layout();
+    }
+}
+
+// Écouter les événements de redimensionnement et d'orientation
+window.addEventListener('resize', debounce(refreshMasonry, 250));
+window.addEventListener('orientationchange', () => {
+    // Attendre que l'orientation change vraiment
+    setTimeout(refreshMasonry, 300);
+});
 
 // Mélanger un tableau
 function shuffleArray(array) {
@@ -192,12 +220,26 @@ function showMedia() {
 }
 
 // Arrêter les vidéos à la fermeture de la modale
-document.getElementById('mediaModal').addEventListener('hidden.bs.modal', function () {
+const mediaModal = document.getElementById('mediaModal');
+mediaModal.addEventListener('hidden.bs.modal', function () {
     const container = document.getElementById('modalMediaContainer');
     const video = container.querySelector('video');
     if (video) {
         video.pause();
         video.currentTime = 0;
+    }
+});
+
+// Fermer la modale en cliquant sur le fond noir (en dehors du média)
+mediaModal.addEventListener('click', function(e) {
+    // Vérifier si le clic est sur le modal lui-même (pas sur le contenu)
+    if (e.target === mediaModal || e.target.classList.contains('modal-dialog') ||
+        e.target.classList.contains('modal-content') || e.target.classList.contains('modal-body') ||
+        e.target.id === 'modalMediaContainer') {
+        const modal = bootstrap.Modal.getInstance(mediaModal);
+        if (modal) {
+            modal.hide();
+        }
     }
 });
 
