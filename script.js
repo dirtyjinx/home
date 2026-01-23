@@ -62,43 +62,32 @@ function loadMusicians() {
 
 // Charger la galerie
 async function loadGallery() {
-    // Liste des médias à afficher
-    const images = [
-        'caddy.jpg',
-        'condette01.jpg',
-        'hoverport.jpg',
-        'moon.jpg',
-        'touquet01.jpg',
-        'touquet03.jpg'
-    ];
-
-    const videos = [
-        'gimmick.mp4',
-        'growingup.mp4'
-    ];
-
     // Créer la liste des médias
     galleryMedia = [];
 
-    // Ajouter les images
-    images.forEach(img => {
-        if (!config.gallery.excludeImages.includes(img)) {
-            galleryMedia.push({
-                type: 'image',
-                src: `${config.gallery.imagesFolder}/${img}`,
-                alt: img.replace(/\.[^/.]+$/, '')
-            });
-        }
-    });
-
-    // Ajouter les vidéos
-    videos.forEach(vid => {
-        galleryMedia.push({
-            type: 'video',
-            src: `${config.gallery.videosFolder}/${vid}`,
-            alt: vid.replace(/\.[^/.]+$/, '')
+    // Ajouter les images depuis la configuration
+    if (config.gallery.images) {
+        config.gallery.images.forEach(img => {
+            if (!config.gallery.excludeImages.includes(img)) {
+                galleryMedia.push({
+                    type: 'image',
+                    src: `${config.gallery.imagesFolder}/${img}`,
+                    alt: img.replace(/\.[^/.]+$/, '')
+                });
+            }
         });
-    });
+    }
+
+    // Ajouter les vidéos depuis la configuration
+    if (config.gallery.videos) {
+        config.gallery.videos.forEach(vid => {
+            galleryMedia.push({
+                type: 'video',
+                src: `${config.gallery.videosFolder}/${vid}`,
+                alt: vid.replace(/\.[^/.]+$/, '')
+            });
+        });
+    }
 
     // Mélanger les médias pour un effet plus dynamique
     galleryMedia = shuffleArray(galleryMedia);

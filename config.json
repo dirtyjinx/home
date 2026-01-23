@@ -11,32 +11,48 @@
       "name": "Alex",
       "instrument": "Saxophone ténor",
       "photo": "assets/images/alex.jpg",
-      "bio": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation."
+      "bio": "Originaire du Dunkerquois et installé sur le Boulonnais, il nourrit depuis près de 40 ans une passion pour la musique et le saxophone. Diplômé d’un DEM et fort d’un parcours éclectique (jazz manouche, big band, orchestres), il affectionne les musiques énergiques et de caractère. Il trouve dans la brass house un terrain d’expression parfaitement adapté à son jeu."
     },
     {
       "name": "Flo",
       "instrument": "Saxophone baryton",
       "photo": "assets/images/flo.jpg",
-      "bio": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia."
+      "bio": "Formé au conservatoire de Boulogne-sur-Mer, il développe très tôt un jeu nourri par le jazz (bebop, funk, fusion) et la musique électro. À la croisée de ces influences, il s’oriente naturellement vers la brass house, fusion énergique entre jazz, funk et club music. Musicien et passionné de technique, il façonne le son Dirty Jinx à travers le sampling, le mix et le traitement des effets."
     },
     {
       "name": "Bastien",
       "instrument": "Batterie",
       "photo": "assets/images/bastien.jpg",
-      "bio": "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis."
+      "bio": "Issu d’une formation autodidacte en percussions, il affine son jeu au conservatoire de Boulogne-sur-Mer. Évoluant au sein de nombreux projets (jazz, musiques actuelles, musiques du monde), il développe un univers rythmique ouvert et polyvalent. Touche-à-tout et bricoleur, il conçoit des sets de batterie sur mesure aux sonorités percutantes, taillées pour électriser le public."
     }
   ],
   "gallery": {
     "imagesFolder": "assets/images",
     "videosFolder": "assets/videos",
-    "excludeImages": ["hero.jpg", "alex.jpg", "flo.jpg", "bastien.jpg"]
+    "excludeImages": ["hero.jpg", "alex.jpg", "flo.jpg", "bastien.jpg"],
+    "images": [
+      "caddy.jpg",
+      "condette01.jpg",
+      "hoverport.jpg",
+      "moon.jpg",
+      "touquet01.jpg",
+      "touquet03.jpg",
+      "intramurock01.jpg",
+      "intramurock02.jpg"
+    ],
+    "videos": [
+      "gimmick.mp4",
+      "growingup.mp4",
+      "slack.mp4",
+      "carresam.mp4"
+    ]
   },
   "contact": {
-    "email": "bidon@gmail.com",
+    "email": "dirtyjinx.contact@gmail.com",
     "phone": "0123456789",
     "social": {
-      "facebook": "#",
-      "instagram": "#"
+      "facebook": "https://www.facebook.com/dirtyJinx",
+      "instagram": "https://www.instagram.com/dirty_jinx/"
     }
   }
 }
