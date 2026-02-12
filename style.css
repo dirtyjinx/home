@@ -490,11 +490,13 @@ html {
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 1150px) {
     .hero-logo-inline {
         display: none;
     }
+}
 
+@media (max-width: 768px) {
     .hero-title {
         font-size: 5rem;
     }
