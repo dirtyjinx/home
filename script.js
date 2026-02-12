@@ -18,9 +18,7 @@ async function loadConfig() {
 // Initialisation de la page
 function initializePage() {
     // Injecter les données du groupe
-    document.getElementById('bandName').textContent = config.band.name;
     document.getElementById('bandTagline').textContent = config.band.tagline;
-    document.getElementById('contactBandName').textContent = config.band.name;
     document.getElementById('footerBandName').textContent = config.band.name;
 
     // Hero background video
@@ -39,6 +37,13 @@ function initializePage() {
     document.getElementById('tiktokLink').href = config.contact.social.tiktok;
     document.getElementById('youtubeLink').href = config.contact.social.youtube;
     document.getElementById('soundcloudLink').href = config.contact.social.soundcloud;
+
+    // Hero social links
+    document.getElementById('heroFacebookLink').href = config.contact.social.facebook;
+    document.getElementById('heroInstagramLink').href = config.contact.social.instagram;
+    document.getElementById('heroTiktokLink').href = config.contact.social.tiktok;
+    document.getElementById('heroYoutubeLink').href = config.contact.social.youtube;
+    document.getElementById('heroSoundcloudLink').href = config.contact.social.soundcloud;
 
     // Charger la section Show
     loadShow();

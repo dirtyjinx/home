@@ -67,12 +67,19 @@ html {
 }
 
 .hero-title {
+    font-family: 'Rubik Wet Paint', cursive;
     font-size: 8rem;
-    font-weight: 800;
-    margin-bottom: 1rem;
+    font-weight: 400;
+    margin-bottom: 2rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     animation: fadeInUp 1s ease;
+}
+
+.hero-logo-inline {
+    height: 1.1337em;
+    width: auto;
+    vertical-align: bottom;
 }
 
 .hero-tagline {
@@ -81,6 +88,41 @@ html {
     /* letter-spacing: 0.05em; */
     text-transform: uppercase;
     animation: fadeInUp 1s ease 0.3s both;
+}
+
+/* Hero Social Links */
+.hero-socials {
+    position: absolute;
+    bottom: 3rem;
+    z-index: 2;
+    display: flex;
+    gap: 1rem;
+    animation: fadeInUp 1s ease 0.6s both;
+}
+
+.hero-social-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--secondary-color);
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    transition: var(--transition);
+    text-decoration: none;
+    opacity: 0.75;
+}
+
+.hero-social-link i {
+    color: var(--primary-color);
+}
+
+.hero-social-link:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
+    opacity: 1;
 }
 
 @keyframes fadeInUp {
@@ -282,6 +324,30 @@ html {
 }
 
 /* Contact Section */
+.contact-logo {
+    position: relative;
+    width: 300px;
+    margin: 0 auto 2rem;
+    padding-bottom: 1.5rem;
+}
+
+.contact-logo img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.contact-logo::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: var(--primary-color);
+}
+
 .contact-info {
     max-width: 600px;
     margin: 0 auto;
@@ -425,6 +491,10 @@ html {
 
 /* Responsive */
 @media (max-width: 768px) {
+    .hero-logo-inline {
+        display: none;
+    }
+
     .hero-title {
         font-size: 5rem;
     }
