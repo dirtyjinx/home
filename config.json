@@ -27,9 +27,8 @@
     }
   ],
   "gallery": {
-    "imagesFolder": "assets/images",
-    "videosFolder": "assets/videos",
-    "excludeImages": ["hero.jpg", "alex.jpg", "flo.jpg", "bastien.jpg"],
+    "imagesFolder": "assets/gallery/images",
+    "videosFolder": "assets/gallery/videos",
     "images": [
       "caddy.jpg",
       "condette01.jpg",

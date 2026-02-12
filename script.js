@@ -68,13 +68,11 @@ async function loadGallery() {
     // Ajouter les images depuis la configuration
     if (config.gallery.images) {
         config.gallery.images.forEach(img => {
-            if (!config.gallery.excludeImages.includes(img)) {
-                galleryMedia.push({
-                    type: 'image',
-                    src: `${config.gallery.imagesFolder}/${img}`,
-                    alt: img.replace(/\.[^/.]+$/, '')
-                });
-            }
+            galleryMedia.push({
+                type: 'image',
+                src: `${config.gallery.imagesFolder}/${img}`,
+                alt: img.replace(/\.[^/.]+$/, '')
+            });
         });
     }
 
