@@ -30,10 +30,23 @@ html {
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    background-attachment: fixed;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+    background-color: #010101;
+}
+
+.hero-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+}
+
+.hero-video.loaded {
+    opacity: 1;
 }
 
 .hero-overlay {
@@ -348,16 +361,6 @@ html {
 
 /* Responsive */
 @media (max-width: 768px) {
-    /* Hero en mobile : afficher toute l'image avec bandes noires */
-    .hero-section {
-        background-attachment: scroll;
-        background-size: contain;
-        background-position: center bottom;
-        background-color: #010101;
-        align-items: flex-start;
-        padding-top: 20vh;
-    }
-
     .hero-title {
         font-size: 5rem;
     }
@@ -377,15 +380,6 @@ html {
 }
 
 @media (max-width: 576px) {
-    .hero-section {
-        background-attachment: scroll;
-        background-size: contain;
-        background-position: center 55vh;
-        background-color: #010101;
-        align-items: flex-start;
-        padding-top: 20vh;
-    }
-
     .hero-title {
         font-size: 4rem;
     }

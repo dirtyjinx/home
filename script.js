@@ -23,9 +23,12 @@ function initializePage() {
     document.getElementById('contactBandName').textContent = config.band.name;
     document.getElementById('footerBandName').textContent = config.band.name;
 
-    // Hero background
-    const heroSection = document.getElementById('hero');
-    heroSection.style.backgroundImage = `url('${config.hero.backgroundImage}')`;
+    // Hero background video
+    const heroVideo = document.getElementById('heroVideo');
+    heroVideo.addEventListener('canplay', () => {
+        heroVideo.classList.add('loaded');
+    }, { once: true });
+    heroVideo.src = config.hero.backgroundVideo;
 
     // Contact
     document.getElementById('contactEmail').textContent = config.contact.email;

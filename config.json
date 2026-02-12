@@ -4,7 +4,7 @@
     "tagline": "Brass House - Cave Music"
   },
   "hero": {
-    "backgroundImage": "assets/images/hero.jpg"
+    "backgroundVideo": "assets/videos/hero.mp4"
   },
   "members": [
     {
