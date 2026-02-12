@@ -36,6 +36,9 @@ function initializePage() {
     document.getElementById('contactPhone').textContent = config.contact.phone;
     document.getElementById('facebookLink').href = config.contact.social.facebook;
     document.getElementById('instagramLink').href = config.contact.social.instagram;
+    document.getElementById('tiktokLink').href = config.contact.social.tiktok;
+    document.getElementById('youtubeLink').href = config.contact.social.youtube;
+    document.getElementById('soundcloudLink').href = config.contact.social.soundcloud;
 
     // Charger la section Show
     loadShow();
