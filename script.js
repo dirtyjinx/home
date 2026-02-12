@@ -37,11 +37,29 @@ function initializePage() {
     document.getElementById('facebookLink').href = config.contact.social.facebook;
     document.getElementById('instagramLink').href = config.contact.social.instagram;
 
+    // Charger la section Show
+    loadShow();
+
     // Charger les musiciens
     loadMusicians();
 
     // Charger la galerie
     loadGallery();
+}
+
+// Charger la section Show
+function loadShow() {
+    const show = config.show;
+    document.getElementById('showImage').src = show.image;
+    document.getElementById('showIntro').textContent = show.intro;
+
+    const blocksContainer = document.getElementById('showBlocks');
+    show.blocks.forEach(block => {
+        const div = document.createElement('div');
+        div.className = 'show-block';
+        div.innerHTML = `<h3>${block.title}</h3><p>${block.text}</p>`;
+        blocksContainer.appendChild(div);
+    });
 }
 
 // Charger les musiciens

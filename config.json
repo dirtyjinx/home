@@ -26,6 +26,24 @@
       "bio": "Issu d’une formation autodidacte en percussions, il affine son jeu au conservatoire de Boulogne-sur-Mer. Évoluant au sein de nombreux projets (jazz, musiques actuelles, musiques du monde), il développe un univers rythmique ouvert et polyvalent. Touche-à-tout et bricoleur, il conçoit des sets de batterie sur mesure aux sonorités percutantes, taillées pour électriser le public."
     }
   ],
+  "show": {
+    "image": "assets/images/show.jpg",
+    "intro": "Dirty Jinx est un trio audacieux où les cuivres se mèlent à une rythmique percutante, où 2 saxophones associés à une batterie et des samples délivrent une énergie brute et une couleur unique.",
+    "blocks": [
+      {
+        "title": "Une influence musicale dictée par le Brasshouse",
+        "text": "Influencé par le brass house et la cave music, Dirty Jinx est aussi à l'aise dans les covers que dans la composition. Cette formation est le fruit d'un métissage sonore contemporain aux influences à la fois house, funk et rock."
+      },
+      {
+        "title": "Une énergie brute",
+        "text": "Dirty Jinx marque sa différence et dénote des concerts traditionnels de rock, de pop ou de jazz. Une composition originale et minimaliste amplifiée et samplée qui délivre une prestation énergique et une performance scénique autant sur les scènes sonorisées des festivals qu'en concert de rue."
+      },
+      {
+        "title": "Une empreinte sonore à part entière",
+        "text": "Sur un répertoire qui mêle à la fois le registre des Moon Hooch, figure emblématique du brass house américain, et les compositions du groupe qui s'inspirent à la fois des influences de la funk, du rock et du jazz, Dirty Jinx modernise le registre brass."
+      }
+    ]
+  },
   "gallery": {
     "imagesFolder": "assets/gallery/images",
     "videosFolder": "assets/gallery/videos",
