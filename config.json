@@ -1,50 +1,31 @@
 {
   "band": {
-    "name": "Dirty Jinx",
-    "tagline": "Brass House - Cave Music"
+    "name": "Dirty Jinx"
   },
   "hero": {
-    "backgroundVideo": "assets/videos/hero.mp4"
+    "backgroundVideo": "assets/videos/hero.mp4",
+    "logo": "assets/images/logo_white.png",
+    "logoIcon": "assets/images/logo_eye_white.png"
   },
-  "members": [
-    {
-      "name": "Alex",
-      "instrument": "Saxophone ténor",
-      "photo": "assets/images/alex.jpg",
-      "bio": "Originaire du Dunkerquois et installé sur le Boulonnais, il nourrit depuis près de 40 ans une passion pour la musique et le saxophone. Diplômé d’un DEM et fort d’un parcours éclectique (jazz manouche, big band, orchestres), il affectionne les musiques énergiques et de caractère. Il trouve dans la brass house un terrain d’expression parfaitement adapté à son jeu."
-    },
-    {
-      "name": "Flo",
-      "instrument": "Saxophone baryton",
-      "photo": "assets/images/flo.jpg",
-      "bio": "Formé au conservatoire de Boulogne-sur-Mer, il développe très tôt un jeu nourri par le jazz (bebop, funk, fusion) et la musique électro. À la croisée de ces influences, il s’oriente naturellement vers la brass house, fusion énergique entre jazz, funk et club music. Musicien et passionné de technique, il façonne le son Dirty Jinx à travers le sampling, le mix et le traitement des effets."
-    },
-    {
-      "name": "Bastien",
-      "instrument": "Batterie",
-      "photo": "assets/images/bastien.jpg",
-      "bio": "Issu d’une formation autodidacte en percussions, il affine son jeu au conservatoire de Boulogne-sur-Mer. Évoluant au sein de nombreux projets (jazz, musiques actuelles, musiques du monde), il développe un univers rythmique ouvert et polyvalent. Touche-à-tout et bricoleur, il conçoit des sets de batterie sur mesure aux sonorités percutantes, taillées pour électriser le public."
-    }
-  ],
-  "show": {
-    "image": "assets/images/show.jpg",
-    "intro": "Dirty Jinx est un trio audacieux où les cuivres se mèlent à une rythmique percutante, où 2 saxophones associés à une batterie et des samples délivrent une énergie brute et une couleur unique.",
-    "blocks": [
-      {
-        "title": "Une influence musicale dictée par le Brasshouse",
-        "text": "Influencé par le brass house et la cave music, Dirty Jinx est aussi à l'aise dans les covers que dans la composition. Cette formation est le fruit d'un métissage sonore contemporain aux influences à la fois house, funk et rock."
-      },
-      {
-        "title": "Une énergie brute",
-        "text": "Dirty Jinx marque sa différence et dénote des concerts traditionnels de rock, de pop ou de jazz. Une composition originale et minimaliste amplifiée et samplée qui délivre une prestation énergique et une performance scénique autant sur les scènes sonorisées des festivals qu'en concert de rue."
-      },
-      {
-        "title": "Une empreinte sonore à part entière",
-        "text": "Sur un répertoire qui mêle à la fois le registre des Moon Hooch, figure emblématique du brass house américain, et les compositions du groupe qui s'inspirent à la fois des influences de la funk, du rock et du jazz, Dirty Jinx modernise le registre brass."
-      }
+  "about": {
+    "eyebrow": "À propos",
+    "title": "Brass-house music",
+    "text": "<strong>Dirty Jinx</strong> est un trio audacieux où les cuivres se mèlent à une rythmique percutante, où deux saxophones associés à une batterie et des samples délivrent une <strong>énergie brute</strong> et une <strong>couleur unique</strong>. Sur un répertoire qui mêle à la fois le registre des <strong>Moon Hooch</strong>, figure emblématique du brass house américain, et les compositions du groupe qui s'inspirent à la fois des influences de la funk, du rock et du jazz, <strong>Dirty Jinx</strong> modernise le registre brass."
+  },
+  "concerts": {
+    "eyebrow": "Agenda 2026",
+    "title": "Concerts",
+    "dates": [
+      { "date": "2026-12-12", "show": "Electro Deluxe - 1ère partie", "location": "Gérard Philipe, Calais" },
+      { "date": "2026-12-11", "show": "Marché de Noël", "location": "Gravelines" },
+      { "date": "2026-07-04", "show": "Le Middle", "location": "Le Middle, Boulogne-sur-Mer" },
+      { "date": "2026-07-10", "show": "Le Blue Bar - Nausicaa", "location": "Le Blue Bar, Boulogne-sur-Mer" },
+      { "date": "2026-06-21", "show": "Fête de la Musique", "location": "Place Frédéric Sauvage, Boulogne-sur-Mer" }
     ]
   },
   "gallery": {
+    "eyebrow": "Galerie",
+    "title": "Une énergie brute",
     "imagesFolder": "assets/gallery/images",
     "videosFolder": "assets/gallery/videos",
     "images": [
@@ -58,13 +39,40 @@
       "intramurock02.jpg"
     ],
     "videos": [
-      "gimmick.mp4",
       "growingup.mp4",
       "slack.mp4",
-      "carresam.mp4"
+      "carresam.mp4",
+      "synths.mp4"
+    ]
+  },
+  "members": {
+    "eyebrow": "Staff",
+    "title": "Les musiciens",
+    "list": [
+      {
+        "name": "Alex",
+        "instrument": "Saxophone ténor",
+        "photo": "assets/images/alex.jpg",
+        "bio": "Originaire du Dunkerquois et installé sur le Boulonnais, il nourrit depuis près de 40 ans une passion pour la musique et le saxophone. Diplômé d’un DEM et fort d’un parcours éclectique (jazz manouche, big band, orchestres), il affectionne les musiques énergiques et de caractère. Il trouve dans la brass house un terrain d’expression parfaitement adapté à son jeu."
+      },
+      {
+        "name": "Flo",
+        "instrument": "Saxophone baryton",
+        "photo": "assets/images/flo.jpg",
+        "bio": "Formé au conservatoire de Boulogne-sur-Mer, il développe très tôt un jeu nourri par le jazz (bebop, funk, fusion) et la musique électro. À la croisée de ces influences, il s’oriente naturellement vers la brass house, fusion énergique entre jazz, funk et club music. Musicien et passionné de technique, il façonne le son Dirty Jinx à travers le sampling, le mix et le traitement des effets."
+      },
+      {
+        "name": "Bastien",
+        "instrument": "Batterie",
+        "photo": "assets/images/bastien.jpg",
+        "bio": "Issu d’une formation autodidacte en percussions, il affine son jeu au conservatoire de Boulogne-sur-Mer. Évoluant au sein de nombreux projets (jazz, musiques actuelles, musiques du monde), il développe un univers rythmique ouvert et polyvalent. Touche-à-tout et bricoleur, il conçoit des sets de batterie sur mesure aux sonorités percutantes, taillées pour électriser le public."
+      }
     ]
   },
   "contact": {
+    "eyebrow": "Contact",
+    "title": "Place au live",
+    "text": "Un festival, une soirée, une scène à enflammer ? Écrivez-nous, on vous répond vite.",
     "email": "dirtyjinx.contact@gmail.com",
     "phone": "06 75 96 32 10",
     "social": {

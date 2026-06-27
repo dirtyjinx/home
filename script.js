@@ -1,10 +1,20 @@
-// Configuration et données
+// ==========================================================================
+// Dirty Jinx — semi-dynamic site driven by config.json
+// ==========================================================================
+
 let config = null;
 let galleryMedia = [];
-let currentMediaIndex = 0;
-let masonryInstance = null;
 
-// Chargement de la configuration
+const SOCIAL_ICONS = {
+    facebook: 'bi-facebook',
+    instagram: 'bi-instagram',
+    tiktok: 'bi-tiktok',
+    youtube: 'bi-youtube',
+    soundcloud: 'bi-soundwave'
+};
+
+// --- Boot ------------------------------------------------------------------
+
 async function loadConfig() {
     try {
         const response = await fetch('config.json');
@@ -15,117 +25,163 @@ async function loadConfig() {
     }
 }
 
-// Initialisation de la page
 function initializePage() {
-    // Injecter les données du groupe
-    document.getElementById('bandTagline').textContent = config.band.tagline;
     document.getElementById('footerBandName').textContent = config.band.name;
 
-    // Hero background video
-    const heroVideo = document.getElementById('heroVideo');
-    heroVideo.addEventListener('canplay', () => {
-        heroVideo.classList.add('loaded');
-    }, { once: true });
-    heroVideo.src = config.hero.backgroundVideo;
+    const heroLogo = document.getElementById('heroLogo');
+    const navLogo = document.querySelector('.nav-logo img');
+    const footerLogo = document.getElementById('footerLogo');
+    if (config.hero.logo) heroLogo.src = config.hero.logo;
+    if (config.hero.logoIcon) {
+        if (navLogo) navLogo.src = config.hero.logoIcon;
+        if (footerLogo) footerLogo.src = config.hero.logoIcon;
+    }
 
-    // Contact
-    document.getElementById('contactEmail').textContent = config.contact.email;
-    document.getElementById('contactEmail').href = `mailto:${config.contact.email}`;
-    document.getElementById('contactPhone').textContent = config.contact.phone;
-    document.getElementById('facebookLink').href = config.contact.social.facebook;
-    document.getElementById('instagramLink').href = config.contact.social.instagram;
-    document.getElementById('tiktokLink').href = config.contact.social.tiktok;
-    document.getElementById('youtubeLink').href = config.contact.social.youtube;
-    document.getElementById('soundcloudLink').href = config.contact.social.soundcloud;
-
-    // Hero social links
-    document.getElementById('heroFacebookLink').href = config.contact.social.facebook;
-    document.getElementById('heroInstagramLink').href = config.contact.social.instagram;
-    document.getElementById('heroTiktokLink').href = config.contact.social.tiktok;
-    document.getElementById('heroYoutubeLink').href = config.contact.social.youtube;
-    document.getElementById('heroSoundcloudLink').href = config.contact.social.soundcloud;
-
-    // Charger la section Show
-    loadShow();
-
-    // Charger les musiciens
-    loadMusicians();
-
-    // Charger la galerie
+    initHeroVideo();
+    loadAbout();
+    loadConcerts();
     loadGallery();
+    loadMusicians();
+    loadContact();
+
+    initNav();
+    initReveal();
 }
 
-// Charger la section Show
-function loadShow() {
-    const show = config.show;
-    document.getElementById('showImage').src = show.image;
-    document.getElementById('showIntro').textContent = show.intro;
+function initHeroVideo() {
+    const heroVideo = document.getElementById('heroVideo');
+    heroVideo.addEventListener('canplay', () => heroVideo.classList.add('loaded'), { once: true });
+    heroVideo.src = config.hero.backgroundVideo;
+}
 
-    const blocksContainer = document.getElementById('showBlocks');
-    show.blocks.forEach(block => {
-        const div = document.createElement('div');
-        div.className = 'show-block';
-        div.innerHTML = `<h3>${block.title}</h3><p>${block.text}</p>`;
-        blocksContainer.appendChild(div);
+// --- Shared helpers --------------------------------------------------------
+
+function buildSocials(container) {
+    if (!container) return;
+    container.innerHTML = '';
+    const social = config.contact.social || {};
+    Object.keys(SOCIAL_ICONS).forEach(key => {
+        if (!social[key]) return;
+        const a = document.createElement('a');
+        a.className = 'social-link';
+        a.href = social[key];
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.setAttribute('aria-label', key);
+        a.innerHTML = `<i class="bi ${SOCIAL_ICONS[key]}"></i>`;
+        container.appendChild(a);
     });
 }
 
-// Charger les musiciens
-function loadMusicians() {
-    const musiciansGrid = document.getElementById('musicians-grid');
+// --- Section 1: About ------------------------------------------------------
 
-    config.members.forEach(member => {
-        const col = document.createElement('div');
-        col.className = 'col-md-4';
-        col.innerHTML = `
-            <div class="musician-card">
-                <img src="${member.photo}" alt="${member.name}" class="musician-photo">
-                <h3 class="musician-name">${member.name}</h3>
-                <p class="musician-instrument">${member.instrument}</p>
-                <p class="musician-bio">${member.bio}</p>
-            </div>
+function loadAbout() {
+    const a = config.about;
+    document.getElementById('aboutEyebrow').textContent = a.eyebrow;
+    document.getElementById('aboutTitle').textContent = a.title;
+    document.getElementById('aboutText').innerHTML = a.text;
+    buildSocials(document.getElementById('aboutSocials'));
+}
+
+// --- Section 2: Concerts ---------------------------------------------------
+
+function loadConcerts() {
+    const c = config.concerts;
+    document.getElementById('concertsEyebrow').textContent = c.eyebrow;
+    document.getElementById('concertsTitle').textContent = c.title;
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const upcoming = [];
+    const past = [];
+    (c.dates || []).forEach(item => {
+        const d = new Date(item.date);
+        if (isNaN(d)) return;
+        (d >= today ? upcoming : past).push({ ...item, dateObj: d });
+    });
+    upcoming.sort((a, b) => a.dateObj - b.dateObj);
+    past.sort((a, b) => b.dateObj - a.dateObj);
+
+    document.getElementById('upcomingCount').textContent = upcoming.length;
+    document.getElementById('pastCount').textContent = past.length;
+
+    renderConcertList(document.getElementById('upcomingList'), upcoming, 'Aucune date à venir pour le moment. Revenez bientôt !');
+    renderConcertList(document.getElementById('pastList'), past, 'Aucune date passée enregistrée.');
+
+    initConcertTabs();
+}
+
+function renderConcertList(ul, items, emptyMsg) {
+    ul.innerHTML = '';
+    if (!items.length) {
+        const li = document.createElement('li');
+        li.className = 'concerts-empty';
+        li.textContent = emptyMsg;
+        ul.appendChild(li);
+        return;
+    }
+    items.forEach(item => {
+        const day = item.dateObj.toLocaleDateString('fr-FR', { day: '2-digit' });
+        const month = item.dateObj.toLocaleDateString('fr-FR', { month: 'short' }).replace('.', '');
+        const li = document.createElement('li');
+        li.className = 'concert-item';
+        li.innerHTML = `
+            <span class="concert-date">
+                <span class="day">${day}</span>
+                <span class="month">${month}</span>
+            </span>
+            <span class="concert-show">${item.show}</span>
+            <span class="concert-location"><i class="bi bi-geo-alt"></i>${item.location}</span>
         `;
-        musiciansGrid.appendChild(col);
+        ul.appendChild(li);
     });
 }
 
-// Charger la galerie
-async function loadGallery() {
-    // Créer la liste des médias
+function initConcertTabs() {
+    const tabs = document.querySelectorAll('.tab-btn');
+    const lists = {
+        upcoming: document.getElementById('upcomingList'),
+        past: document.getElementById('pastList')
+    };
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            const target = tab.dataset.tab;
+            Object.keys(lists).forEach(key => {
+                lists[key].classList.toggle('is-hidden', key !== target);
+            });
+        });
+    });
+}
+
+// --- Section 3: Gallery (carousel + modal) ---------------------------------
+
+function loadGallery() {
+    const g = config.gallery;
+    document.getElementById('galleryEyebrow').textContent = g.eyebrow;
+    document.getElementById('galleryTitle').textContent = g.title;
+
     galleryMedia = [];
-
-    // Ajouter les images depuis la configuration
-    if (config.gallery.images) {
-        config.gallery.images.forEach(img => {
-            galleryMedia.push({
-                type: 'image',
-                src: `${config.gallery.imagesFolder}/${img}`,
-                alt: img.replace(/\.[^/.]+$/, '')
-            });
-        });
-    }
-
-    // Ajouter les vidéos depuis la configuration
-    if (config.gallery.videos) {
-        config.gallery.videos.forEach(vid => {
-            galleryMedia.push({
-                type: 'video',
-                src: `${config.gallery.videosFolder}/${vid}`,
-                alt: vid.replace(/\.[^/.]+$/, '')
-            });
-        });
-    }
-
-    // Mélanger les médias pour un effet plus dynamique
+    (g.images || []).forEach(img => galleryMedia.push({
+        type: 'image',
+        src: `${g.imagesFolder}/${img}`,
+        alt: img.replace(/\.[^/.]+$/, '')
+    }));
+    (g.videos || []).forEach(vid => galleryMedia.push({
+        type: 'video',
+        src: `${g.videosFolder}/${vid}`,
+        alt: vid.replace(/\.[^/.]+$/, '')
+    }));
     galleryMedia = shuffleArray(galleryMedia);
 
-    // Créer les éléments de la galerie
-    const galleryGrid = document.getElementById('gallery-grid');
-
+    const track = document.getElementById('carouselTrack');
+    track.innerHTML = '';
     galleryMedia.forEach((media, index) => {
         const item = document.createElement('div');
-        item.className = 'gallery-item';
-        item.onclick = () => openModal(index);
+        item.className = 'carousel-item';
+        item.addEventListener('click', () => openModal(index));
 
         if (media.type === 'image') {
             const img = document.createElement('img');
@@ -133,131 +189,208 @@ async function loadGallery() {
             img.alt = media.alt;
             img.loading = 'lazy';
             item.appendChild(img);
-        } else if (media.type === 'video') {
+        } else {
             const video = document.createElement('video');
             video.src = media.src;
             video.muted = true;
             video.loop = true;
             video.playsInline = true;
-            video.onloadeddata = () => {
-                video.play().catch(() => console.log('Autoplay prevented'));
-            };
+            video.preload = 'metadata';
+            video.addEventListener('loadeddata', () => video.play().catch(() => {}));
             item.appendChild(video);
+
+            const badge = document.createElement('span');
+            badge.className = 'media-badge';
+            badge.innerHTML = '<i class="bi bi-play-fill"></i>';
+            item.appendChild(badge);
         }
-
-        galleryGrid.appendChild(item);
+        track.appendChild(item);
     });
 
-    // Initialiser Masonry après le chargement des images
-    imagesLoaded(galleryGrid, function() {
-        masonryInstance = new Masonry(galleryGrid, {
-            itemSelector: '.gallery-item',
-            percentPosition: false,
-            gutter: 15,
-            fitWidth: true
-        });
-
-        // Rafraîchir Masonry après chaque chargement de vidéo
-        const videos = galleryGrid.querySelectorAll('video');
-        videos.forEach(video => {
-            video.addEventListener('loadedmetadata', () => {
-                masonryInstance.layout();
-            });
-        });
-    });
+    initCarouselControls(track);
 }
 
-// Fonction debounce pour limiter les appels lors du redimensionnement
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
+function initCarouselControls(track) {
+    const prev = document.getElementById('carouselPrev');
+    const next = document.getElementById('carouselNext');
+    const step = () => {
+        const first = track.querySelector('.carousel-item');
+        const gap = parseFloat(getComputedStyle(track).columnGap || getComputedStyle(track).gap) || 16;
+        return first ? first.getBoundingClientRect().width + gap : track.clientWidth * 0.8;
     };
+    prev.addEventListener('click', () => track.scrollBy({ left: -step(), behavior: 'smooth' }));
+    next.addEventListener('click', () => track.scrollBy({ left: step(), behavior: 'smooth' }));
+
+    // Drag-to-slide (pointer)
+    let isDown = false, startX = 0, startScroll = 0, moved = false;
+    track.addEventListener('pointerdown', e => {
+        isDown = true; moved = false;
+        startX = e.clientX;
+        startScroll = track.scrollLeft;
+    });
+    track.addEventListener('pointermove', e => {
+        if (!isDown) return;
+        const dx = e.clientX - startX;
+        if (Math.abs(dx) > 6) { moved = true; track.classList.add('dragging'); }
+        track.scrollLeft = startScroll - dx;
+    });
+    const endDrag = () => { isDown = false; track.classList.remove('dragging'); };
+    track.addEventListener('pointerup', endDrag);
+    track.addEventListener('pointerleave', endDrag);
+    track.addEventListener('pointercancel', endDrag);
+    // Prevent click-through opening the modal right after a drag
+    track.addEventListener('click', e => { if (moved) { e.stopPropagation(); e.preventDefault(); } }, true);
 }
 
-// Recalculer Masonry lors du redimensionnement
-function refreshMasonry() {
-    if (masonryInstance) {
-        masonryInstance.layout();
-    }
-}
+// --- Modal -----------------------------------------------------------------
 
-// Écouter les événements de redimensionnement et d'orientation
-window.addEventListener('resize', debounce(refreshMasonry, 250));
-window.addEventListener('orientationchange', () => {
-    // Attendre que l'orientation change vraiment
-    setTimeout(refreshMasonry, 300);
-});
+const modal = document.getElementById('mediaModal');
+const modalContent = document.getElementById('mediaModalContent');
 
-// Mélanger un tableau
-function shuffleArray(array) {
-    const newArray = [...array];
-    for (let i = newArray.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
-    }
-    return newArray;
-}
-
-// Ouvrir la modale
 function openModal(index) {
-    currentMediaIndex = index;
-    showMedia();
-    const modal = new bootstrap.Modal(document.getElementById('mediaModal'));
-    modal.show();
-}
-
-// Afficher le média dans la modale
-function showMedia() {
-    const container = document.getElementById('modalMediaContainer');
-    container.innerHTML = '';
-
-    const media = galleryMedia[currentMediaIndex];
+    const media = galleryMedia[index];
+    if (!media) return;
+    modalContent.innerHTML = '';
 
     if (media.type === 'image') {
         const img = document.createElement('img');
         img.src = media.src;
         img.alt = media.alt;
-        img.className = 'img-fluid';
-        container.appendChild(img);
-    } else if (media.type === 'video') {
+        modalContent.appendChild(img);
+    } else {
         const video = document.createElement('video');
         video.src = media.src;
         video.controls = true;
         video.autoplay = true;
-        video.className = 'w-100';
-        container.appendChild(video);
+        video.playsInline = true;
+        modalContent.appendChild(video);
     }
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
 }
 
-// Arrêter les vidéos à la fermeture de la modale
-const mediaModal = document.getElementById('mediaModal');
-mediaModal.addEventListener('hidden.bs.modal', function () {
-    const container = document.getElementById('modalMediaContainer');
-    const video = container.querySelector('video');
-    if (video) {
-        video.pause();
-        video.currentTime = 0;
-    }
-});
+function closeModal() {
+    const video = modalContent.querySelector('video');
+    if (video) { video.pause(); video.currentTime = 0; }
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    modalContent.innerHTML = '';
+    document.body.style.overflow = '';
+}
 
-// Fermer la modale en cliquant sur le fond noir (en dehors du média)
-mediaModal.addEventListener('click', function(e) {
-    // Vérifier si le clic est sur le modal lui-même (pas sur le contenu)
-    if (e.target === mediaModal || e.target.classList.contains('modal-dialog') ||
-        e.target.classList.contains('modal-content') || e.target.classList.contains('modal-body') ||
-        e.target.id === 'modalMediaContainer') {
-        const modal = bootstrap.Modal.getInstance(mediaModal);
-        if (modal) {
-            modal.hide();
-        }
-    }
-});
+document.getElementById('mediaModalClose').addEventListener('click', closeModal);
+modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('open')) closeModal(); });
 
-// Initialiser au chargement de la page
+// --- Section 4: Musicians --------------------------------------------------
+
+function loadMusicians() {
+    const m = config.members;
+    document.getElementById('musiciansEyebrow').textContent = m.eyebrow;
+    document.getElementById('musiciansTitle').textContent = m.title;
+
+    const grid = document.getElementById('musiciansGrid');
+    grid.innerHTML = '';
+    (m.list || []).forEach(member => {
+        const card = document.createElement('div');
+        card.className = 'musician-card reveal';
+        card.innerHTML = `
+            <img src="${member.photo}" alt="${member.name}" class="musician-photo" loading="lazy">
+            <h3 class="musician-name">${member.name}</h3>
+            <p class="musician-instrument">${member.instrument}</p>
+            <p class="musician-bio">${member.bio}</p>
+        `;
+        grid.appendChild(card);
+    });
+}
+
+// --- Section 5: Contact ----------------------------------------------------
+
+function loadContact() {
+    const c = config.contact;
+    document.getElementById('contactEyebrow').textContent = c.eyebrow;
+    document.getElementById('contactTitle').textContent = c.title;
+    document.getElementById('contactText').textContent = c.text || '';
+
+    const emailEl = document.getElementById('contactEmail');
+    const emailLink = document.getElementById('contactEmailLink');
+    emailEl.textContent = c.email;
+    emailLink.href = `mailto:${c.email}`;
+
+    const phoneEl = document.getElementById('contactPhone');
+    const phoneLink = document.getElementById('contactPhoneLink');
+    phoneEl.textContent = c.phone;
+    phoneLink.href = `tel:${c.phone.replace(/\s+/g, '')}`;
+
+    buildSocials(document.getElementById('contactSocials'));
+
+    // Form composes a mailto (static, no backend)
+    const form = document.getElementById('contactForm');
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+        const name = document.getElementById('cfName').value.trim();
+        const email = document.getElementById('cfEmail').value.trim();
+        const message = document.getElementById('cfMessage').value.trim();
+        const subject = encodeURIComponent(`Contact site — ${name}`);
+        const body = encodeURIComponent(`${message}\n\n— ${name}\n${email}`);
+        window.location.href = `mailto:${c.email}?subject=${subject}&body=${body}`;
+    });
+}
+
+// --- Navigation ------------------------------------------------------------
+
+function initNav() {
+    const nav = document.getElementById('nav');
+    const burger = document.getElementById('navBurger');
+    const links = document.getElementById('navLinks');
+
+    const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > window.innerHeight * 0.6);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    burger.addEventListener('click', () => {
+        const open = links.classList.toggle('open');
+        nav.classList.toggle('menu-open', open);
+        burger.setAttribute('aria-expanded', String(open));
+    });
+    links.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => {
+            links.classList.remove('open');
+            nav.classList.remove('menu-open');
+            burger.setAttribute('aria-expanded', 'false');
+        });
+    });
+}
+
+// --- Reveal on scroll ------------------------------------------------------
+
+function initReveal() {
+    const els = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) {
+        els.forEach(el => el.classList.add('is-visible'));
+        return;
+    }
+    const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                obs.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.12, rootMargin: '0px 0px -10% 0px' });
+    els.forEach(el => observer.observe(el));
+}
+
+// --- Utils -----------------------------------------------------------------
+
+function shuffleArray(array) {
+    const a = [...array];
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+}
+
 document.addEventListener('DOMContentLoaded', loadConfig);

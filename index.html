@@ -4,15 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dirty Jinx - Brass House Band</title>
+    <meta name="description" content="Dirty Jinx — trio brass house / cave music. Deux saxophones, une batterie et des samples pour une énergie brute.">
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    <!-- Google Fonts - Lacquer -->
+    <!-- Google Fonts - Inter + Syne -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lacquer&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="assets/favicon/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="assets/favicon/favicon.svg" />
@@ -24,132 +23,169 @@
 </head>
 <body>
 
-    <!-- Section 1: Hero -->
-    <section id="hero" class="hero-section">
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <div class="nav-inner">
+            <a href="#hero" class="nav-logo" aria-label="Dirty Jinx — accueil">
+                <img src="assets/images/logo_eye_white.png" alt="Dirty Jinx">
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#about">À propos</a></li>
+                <li><a href="#concerts">Concerts</a></li>
+                <li><a href="#gallery">Galerie</a></li>
+                <li><a href="#musicians">Musiciens</a></li>
+                <li><a href="#contact" class="nav-cta">Contact</a></li>
+            </ul>
+            <button class="nav-burger" id="navBurger" aria-label="Menu" aria-expanded="false">
+                <i class="bi bi-list"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Section: Hero -->
+    <header id="hero" class="hero">
+        <div class="hero-bg" aria-hidden="true"></div>
         <video id="heroVideo" class="hero-video" autoplay muted loop playsinline></video>
         <div class="hero-overlay"></div>
         <div class="hero-content">
-            <h1 class="hero-title" id="bandName">
-                Dirty
-                <img src="assets/images/logo_eye_white.png" alt="Dirty Jinx logo" class="hero-logo-inline">
-                Jinx
-            </h1>
-            <p class="hero-tagline" id="bandTagline">Brass house - Cave music</p>
+            <img src="assets/images/logo_white.png" alt="Dirty Jinx" class="hero-logo" id="heroLogo">
+            <a href="#concerts" class="btn btn-primary hero-cta">
+                <i class="bi bi-calendar-event"></i>
+                Prochaines dates
+            </a>
         </div>
-        <div class="hero-socials">
-            <a href="#" id="heroFacebookLink" class="hero-social-link" target="_blank" rel="noopener">
-                <i class="bi bi-facebook"></i>
-            </a>
-            <a href="#" id="heroInstagramLink" class="hero-social-link" target="_blank" rel="noopener">
-                <i class="bi bi-instagram"></i>
-            </a>
-            <a href="#" id="heroTiktokLink" class="hero-social-link" target="_blank" rel="noopener">
-                <i class="bi bi-tiktok"></i>
-            </a>
-            <a href="#" id="heroYoutubeLink" class="hero-social-link" target="_blank" rel="noopener">
-                <i class="bi bi-youtube"></i>
-            </a>
-            <a href="#" id="heroSoundcloudLink" class="hero-social-link" target="_blank" rel="noopener">
-                <i class="bi bi-soundwave"></i>
-            </a>
+        <a href="#about" class="hero-scroll" aria-label="Défiler vers le bas">
+            <i class="bi bi-chevron-down"></i>
+        </a>
+    </header>
+
+    <!-- Section 1: À propos -->
+    <section id="about" class="section about">
+        <div class="container about-inner">
+            <div class="section-head reveal">
+                <p class="section-eyebrow" id="aboutEyebrow"></p>
+                <h2 class="section-title" id="aboutTitle"></h2>
+            </div>
+            <p class="about-text reveal reveal-delay-1" id="aboutText"></p>
+            <div class="socials reveal reveal-delay-2" id="aboutSocials"></div>
         </div>
     </section>
 
-    <!-- Section 2: Show -->
-    <section id="show" class="show-section">
+    <!-- Section 2: Concerts -->
+    <section id="concerts" class="section concerts">
         <div class="container">
-            <h2 class="section-title text-center mb-5">Le show</h2>
-            <p class="show-intro" id="showIntro"></p>
-            <div class="show-body">
-                <div class="show-image">
-                    <img id="showImage" src="" alt="Dirty Jinx live" loading="lazy">
-                </div>
-                <div class="show-blocks" id="showBlocks"></div>
+            <div class="section-head reveal">
+                <p class="section-eyebrow" id="concertsEyebrow"></p>
+                <h2 class="section-title" id="concertsTitle"></h2>
+            </div>
+            <div class="concerts-tabs reveal reveal-delay-1">
+                <button class="tab-btn active" data-tab="upcoming">
+                    À venir <span class="tab-count" id="upcomingCount">0</span>
+                </button>
+                <button class="tab-btn" data-tab="past">
+                    Passés <span class="tab-count" id="pastCount">0</span>
+                </button>
+            </div>
+            <div class="concerts-panel reveal reveal-delay-2">
+                <ul class="concerts-list" id="upcomingList"></ul>
+                <ul class="concerts-list is-hidden" id="pastList"></ul>
             </div>
         </div>
     </section>
 
     <!-- Section 3: Galerie -->
-    <section id="gallery" class="py-5">
+    <section id="gallery" class="section gallery">
         <div class="container">
-            <h2 class="section-title text-center mb-5">Galerie</h2>
-            <div id="gallery-grid">
-                <!-- Les médias seront chargés dynamiquement via JavaScript -->
+            <div class="section-head reveal">
+                <p class="section-eyebrow" id="galleryEyebrow"></p>
+                <h2 class="section-title" id="galleryTitle"></h2>
             </div>
+        </div>
+        <div class="carousel reveal reveal-delay-1">
+            <button class="carousel-arrow carousel-prev" id="carouselPrev" aria-label="Précédent">
+                <i class="bi bi-chevron-left"></i>
+            </button>
+            <div class="carousel-track" id="carouselTrack"></div>
+            <button class="carousel-arrow carousel-next" id="carouselNext" aria-label="Suivant">
+                <i class="bi bi-chevron-right"></i>
+            </button>
         </div>
     </section>
 
-    <!-- Section 3: Musiciens -->
-    <section id="musicians" class="py-5 bg-light">
+    <!-- Section 4: Musiciens -->
+    <section id="musicians" class="section musicians">
         <div class="container">
-            <h2 class="section-title text-center mb-5">Les Musiciens</h2>
-            <div id="musicians-grid" class="row g-4">
-                <!-- Les musiciens seront chargés dynamiquement via JavaScript -->
+            <div class="section-head reveal">
+                <p class="section-eyebrow" id="musiciansEyebrow"></p>
+                <h2 class="section-title" id="musiciansTitle"></h2>
             </div>
+            <div class="musicians-grid" id="musiciansGrid"></div>
         </div>
     </section>
 
-    <!-- Section 4: Contact -->
-    <section id="contact" class="py-5">
-        <div class="container text-center">
-            <div class="contact-logo">
-                <img src="assets/images/logo_black.png" alt="Dirty Jinx logo">
+    <!-- Section 5: Contact -->
+    <section id="contact" class="section contact">
+        <div class="container contact-inner">
+            <div class="section-head reveal">
+                <p class="section-eyebrow" id="contactEyebrow"></p>
+                <h2 class="section-title" id="contactTitle"></h2>
             </div>
-            <div class="contact-info">
-                <p class="mb-2">
-                    <i class="bi bi-envelope-fill me-2"></i>
-                    <a href="mailto:bidon@gmail.com" id="contactEmail">bidon@gmail.com</a>
-                </p>
-                <p class="mb-4">
-                    <i class="bi bi-telephone-fill me-2"></i>
-                    <span id="contactPhone">0123456789</span>
-                </p>
-                <div class="social-links">
-                    <a href="#" id="facebookLink" class="social-link" target="_blank" rel="noopener">
-                        <i class="bi bi-facebook"></i>
+            <p class="contact-text reveal reveal-delay-1" id="contactText"></p>
+
+            <div class="contact-body">
+                <form class="contact-form reveal reveal-delay-1" id="contactForm">
+                    <div class="form-group">
+                        <label for="cfName">Nom</label>
+                        <input type="text" id="cfName" name="name" required placeholder="Votre nom">
+                    </div>
+                    <div class="form-group">
+                        <label for="cfEmail">Email</label>
+                        <input type="email" id="cfEmail" name="email" required placeholder="vous@exemple.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="cfMessage">Message</label>
+                        <textarea id="cfMessage" name="message" rows="5" required placeholder="Parlez-nous de votre projet, date, lieu…"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Envoyer le message</button>
+                </form>
+
+                <aside class="contact-channels reveal reveal-delay-2">
+                    <a class="contact-channel" id="contactEmailLink" href="#">
+                        <span class="contact-icon"><i class="bi bi-envelope-fill"></i></span>
+                        <span class="contact-channel-text">
+                            <span class="contact-channel-label">Email</span>
+                            <span class="contact-channel-value" id="contactEmail"></span>
+                        </span>
                     </a>
-                    <a href="#" id="instagramLink" class="social-link" target="_blank" rel="noopener">
-                        <i class="bi bi-instagram"></i>
+                    <a class="contact-channel" id="contactPhoneLink" href="#">
+                        <span class="contact-icon"><i class="bi bi-telephone-fill"></i></span>
+                        <span class="contact-channel-text">
+                            <span class="contact-channel-label">Téléphone</span>
+                            <span class="contact-channel-value" id="contactPhone"></span>
+                        </span>
                     </a>
-                    <a href="#" id="tiktokLink" class="social-link" target="_blank" rel="noopener">
-                        <i class="bi bi-tiktok"></i>
-                    </a>
-                    <a href="#" id="youtubeLink" class="social-link" target="_blank" rel="noopener">
-                        <i class="bi bi-youtube"></i>
-                    </a>
-                    <a href="#" id="soundcloudLink" class="social-link" target="_blank" rel="noopener">
-                        <i class="bi bi-soundwave"></i>
-                    </a>
-                </div>
+                    <div class="socials" id="contactSocials"></div>
+                </aside>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="py-3 bg-dark text-white text-center">
-        <p class="mb-0">&copy; 2026 <span id="footerBandName">Dirty Jinx</span>. Tous droits réservés.</p>
+    <footer class="footer">
+        <div class="container footer-inner">
+            <img src="assets/images/logo_eye_white.png" alt="Dirty Jinx" class="footer-logo" id="footerLogo">
+            <p class="footer-copy">&copy; 2026 <span id="footerBandName">Dirty Jinx</span>. Tous droits réservés.</p>
+        </div>
     </footer>
 
-    <!-- Modale pour afficher les médias en grand -->
-    <div class="modal fade" id="mediaModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="true">
-        <button type="button" class="modal-close-btn" data-bs-dismiss="modal" aria-label="Fermer">
+    <!-- Modale média (vanilla, fullscreen) -->
+    <div class="media-modal" id="mediaModal" aria-hidden="true">
+        <button class="media-modal-close" id="mediaModalClose" aria-label="Fermer">
             <i class="bi bi-x-lg"></i>
         </button>
-        <div class="modal-dialog modal-dialog-centered modal-fullscreen-lg-down">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div id="modalMediaContainer"></div>
-                </div>
-            </div>
-        </div>
+        <div class="media-modal-content" id="mediaModalContent"></div>
     </div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Masonry JS -->
-    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
-    <!-- imagesLoaded JS (pour Masonry) -->
-    <script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
     <!-- Custom JS -->
     <script src="script.js"></script>
 </body>
