@@ -50,7 +50,15 @@ function initializePage() {
 
 function initHeroVideo() {
     const heroVideo = document.getElementById('heroVideo');
+    // Sur connexion lente / mode économie de données : on garde le dégradé animé
+    // et on ne télécharge pas la vidéo (lourde).
+    const conn = navigator.connection || navigator.webkitConnection || navigator.mozConnection;
+    const effType = conn && conn.effectiveType;
+    const slow = conn && (conn.saveData || effType === 'slow-2g' || effType === '2g');
+    if (slow) return;
+
     heroVideo.addEventListener('canplay', () => heroVideo.classList.add('loaded'), { once: true });
+    heroVideo.preload = 'auto';
     heroVideo.src = config.hero.backgroundVideo;
 }
 
@@ -188,15 +196,16 @@ function loadGallery() {
             img.src = media.src;
             img.alt = media.alt;
             img.loading = 'lazy';
+            img.decoding = 'async';
             item.appendChild(img);
         } else {
+            // Lazy : pas de src au départ (data-src), on charge/joue à l'entrée à l'écran.
             const video = document.createElement('video');
-            video.src = media.src;
+            video.dataset.src = media.src;
             video.muted = true;
             video.loop = true;
             video.playsInline = true;
-            video.preload = 'metadata';
-            video.addEventListener('loadeddata', () => video.play().catch(() => {}));
+            video.preload = 'none';
             item.appendChild(video);
 
             const badge = document.createElement('span');
@@ -207,7 +216,36 @@ function loadGallery() {
         track.appendChild(item);
     });
 
+    observeGalleryVideos(track);
+
     initCarouselControls(track);
+}
+
+// Charge et joue chaque vidéo seulement quand elle est visible ; la met en
+// pause (et libère la source) quand elle quitte l'écran → rien n'est
+// téléchargé tant qu'on n'a pas fait défiler jusqu'à la vidéo.
+function observeGalleryVideos(track) {
+    const videos = track.querySelectorAll('video[data-src]');
+    if (!videos.length) return;
+
+    if (!('IntersectionObserver' in window)) {
+        videos.forEach(v => { v.src = v.dataset.src; v.play().catch(() => {}); });
+        return;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            const video = entry.target;
+            if (entry.isIntersecting) {
+                if (!video.src) video.src = video.dataset.src;
+                video.play().catch(() => {});
+            } else {
+                video.pause();
+            }
+        });
+    }, { root: track, threshold: 0.4 });
+
+    videos.forEach(v => observer.observe(v));
 }
 
 function initCarouselControls(track) {
