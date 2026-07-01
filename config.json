@@ -9,7 +9,7 @@
   },
   "about": {
     "eyebrow": "À propos",
-    "title": "Brass-house music",
+    "title": "Brass House",
     "text": "<strong>Dirty Jinx</strong> est un trio audacieux où les cuivres se mèlent à une rythmique percutante, où deux saxophones associés à une batterie et des samples délivrent une <strong>énergie brute</strong> et une <strong>couleur unique</strong>. Sur un répertoire qui mêle à la fois le registre des <strong>Moon Hooch</strong>, figure emblématique du brass house américain, et les compositions du groupe qui s'inspirent à la fois des influences de la funk, du rock et du jazz, <strong>Dirty Jinx</strong> modernise le registre brass."
   },
   "concerts": {
@@ -56,16 +56,16 @@
         "bio": "Originaire du Dunkerquois et installé sur le Boulonnais, il nourrit depuis près de 40 ans une passion pour la musique et le saxophone. Diplômé d’un DEM et fort d’un parcours éclectique (jazz manouche, big band, orchestres), il affectionne les musiques énergiques et de caractère. Il trouve dans la brass house un terrain d’expression parfaitement adapté à son jeu."
       },
       {
-        "name": "Flo",
-        "instrument": "Saxophone baryton",
-        "photo": "assets/images/flo.jpg",
-        "bio": "Formé au conservatoire de Boulogne-sur-Mer, il développe très tôt un jeu nourri par le jazz (bebop, funk, fusion) et la musique électro. À la croisée de ces influences, il s’oriente naturellement vers la brass house, fusion énergique entre jazz, funk et club music. Musicien et passionné de technique, il façonne le son Dirty Jinx à travers le sampling, le mix et le traitement des effets."
-      },
-      {
         "name": "Bastien",
         "instrument": "Batterie",
         "photo": "assets/images/bastien.jpg",
         "bio": "Issu d’une formation autodidacte en percussions, il affine son jeu au conservatoire de Boulogne-sur-Mer. Évoluant au sein de nombreux projets (jazz, musiques actuelles, musiques du monde), il développe un univers rythmique ouvert et polyvalent. Touche-à-tout et bricoleur, il conçoit des sets de batterie sur mesure aux sonorités percutantes, taillées pour électriser le public."
+      },
+      {
+        "name": "Flo",
+        "instrument": "Saxophone baryton",
+        "photo": "assets/images/flo.jpg",
+        "bio": "Formé au conservatoire de Boulogne-sur-Mer, il développe très tôt un jeu nourri par le jazz (bebop, funk, fusion) et la musique électro. À la croisée de ces influences, il s’oriente naturellement vers la brass house, fusion énergique entre jazz, funk et club music. Musicien et passionné de technique, il façonne le son Dirty Jinx à travers le sampling, le mix et le traitement des effets."
       }
     ]
   },
