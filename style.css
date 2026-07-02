@@ -436,6 +436,29 @@ ul { list-style: none; margin: 0; padding: 0; }
     background: rgba(255, 255, 255, 0.14);
 }
 
+.concerts-panel {
+    position: relative;
+    overflow-y: auto;
+    transition: height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    scrollbar-width: thin;
+    scrollbar-color: var(--line) transparent;
+}
+.concerts-panel::-webkit-scrollbar { width: 6px; }
+.concerts-panel::-webkit-scrollbar-track { background: transparent; }
+.concerts-panel::-webkit-scrollbar-thumb { background: var(--line); border-radius: 999px; }
+.concerts-panel::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+.concerts-panel.is-scrollable {
+    -webkit-mask-image: linear-gradient(to bottom, #000 82%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 82%, transparent 100%);
+}
+
+.concerts-list.is-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100%;
+    text-align: center;
+}
 .concerts-list.is-hidden { display: none; }
 
 .concert-item {

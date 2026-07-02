@@ -18,7 +18,9 @@
     "dates": [
       { "date": "2026-12-12", "show": "Electro Deluxe - 1ère partie", "location": "Gérard Philipe, Calais" },
       { "date": "2026-12-11", "show": "Marché de Noël", "location": "Gravelines" },
-      { "date": "2026-07-04", "show": "Le Middle", "location": "Le Middle, Boulogne-sur-Mer" },
+      { "date": "2026-08-21", "show": "Le Blue Bar - Nausicaa", "location": "Le Blue Bar, Boulogne-sur-Mer" },
+      { "date": "2026-08-15", "show": "Hôtel Escalles", "location": "Cap Gris-Nez" },
+      { "date": "2026-07-26", "show": "Ferme Beaurepaire", "location": "Boulogne-sur-Mer" },
       { "date": "2026-07-10", "show": "Le Blue Bar - Nausicaa", "location": "Le Blue Bar, Boulogne-sur-Mer" },
       { "date": "2026-06-21", "show": "Fête de la Musique", "location": "Place Frédéric Sauvage, Boulogne-sur-Mer" }
     ]

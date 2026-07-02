@@ -117,11 +117,12 @@ function loadConcerts() {
     renderConcertList(document.getElementById('upcomingList'), upcoming, 'Aucune date à venir pour le moment. Revenez bientôt !');
     renderConcertList(document.getElementById('pastList'), past, 'Aucune date passée enregistrée.');
 
-    initConcertTabs();
+    initConcerts();
 }
 
 function renderConcertList(ul, items, emptyMsg) {
     ul.innerHTML = '';
+    ul.classList.toggle('is-empty', !items.length);
     if (!items.length) {
         const li = document.createElement('li');
         li.className = 'concerts-empty';
@@ -146,12 +147,51 @@ function renderConcertList(ul, items, emptyMsg) {
     });
 }
 
-function initConcertTabs() {
+const CONCERTS_MAX_ROWS = 5;
+
+function initConcerts() {
+    const panel = document.querySelector('.concerts-panel');
     const tabs = document.querySelectorAll('.tab-btn');
     const lists = {
         upcoming: document.getElementById('upcomingList'),
         past: document.getElementById('pastList')
     };
+    if (!panel) return;
+
+    const activeKey = () => {
+        const t = document.querySelector('.tab-btn.active');
+        return t ? t.dataset.tab : 'upcoming';
+    };
+
+    const rowHeight = () => {
+        const item = panel.querySelector('.concert-item');
+        return item ? item.getBoundingClientRect().height : 90;
+    };
+
+    // Hauteur réelle du contenu d'une liste, sans le centrage (is-empty) ni le masquage.
+    const contentHeight = (ul) => {
+        const wasHidden = ul.classList.contains('is-hidden');
+        const wasEmpty = ul.classList.contains('is-empty');
+        if (wasHidden) ul.classList.remove('is-hidden');
+        if (wasEmpty) ul.classList.remove('is-empty');
+        const h = ul.scrollHeight;
+        if (wasEmpty) ul.classList.add('is-empty');
+        if (wasHidden) ul.classList.add('is-hidden');
+        return h;
+    };
+
+    const updateScrollState = () => {
+        const moreBelow = panel.scrollHeight - panel.clientHeight - panel.scrollTop > 1;
+        panel.classList.toggle('is-scrollable', moreBelow);
+    };
+
+    const resize = () => {
+        const cap = rowHeight() * CONCERTS_MAX_ROWS;
+        const natural = Math.max(contentHeight(lists.upcoming), contentHeight(lists.past));
+        panel.style.height = Math.min(cap, natural) + 'px';
+        updateScrollState();
+    };
+
     tabs.forEach(tab => {
         tab.addEventListener('click', () => {
             tabs.forEach(t => t.classList.remove('active'));
@@ -160,8 +200,18 @@ function initConcertTabs() {
             Object.keys(lists).forEach(key => {
                 lists[key].classList.toggle('is-hidden', key !== target);
             });
+            panel.scrollTop = 0;
+            updateScrollState();
         });
     });
+
+    panel.addEventListener('scroll', updateScrollState);
+
+    let rt;
+    window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(resize, 150); });
+    resize();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(resize);
+    window.addEventListener('load', resize);
 }
 
 // --- Section 3: Gallery (carousel + modal) ---------------------------------
