@@ -9,8 +9,8 @@
   },
   "about": {
     "eyebrow": "À propos",
-    "title": "Brass House",
-    "text": "<strong>Dirty Jinx</strong> est un trio audacieux où les cuivres se mèlent à une rythmique percutante, où deux saxophones associés à une batterie et des samples délivrent une <strong>énergie brute</strong> et une <strong>couleur unique</strong>. Sur un répertoire qui mêle à la fois le registre des <strong>Moon Hooch</strong>, figure emblématique du brass house américain, et les compositions du groupe qui s'inspirent à la fois des influences de la funk, du rock et du jazz, <strong>Dirty Jinx</strong> modernise le registre brass."
+    "title": "Dirty Jinx",
+    "text": "<strong>Dirty Jinx</strong> est un trio de <strong>Brass House</strong>, où les cuivres se mèlent à une rythmique percutante, où deux saxophones associés à une batterie et des samples délivrent une <strong>énergie brute</strong> et une <strong>couleur unique</strong>. Sur un répertoire qui mêle à la fois le registre des <strong>Moon Hooch</strong>, figure emblématique du brass house américain, et les compositions du groupe qui s'inspirent à la fois des influences de la funk, du rock et du jazz, <strong>Dirty Jinx</strong> modernise le registre brass."
   },
   "concerts": {
     "eyebrow": "Agenda 2026",
@@ -26,8 +26,8 @@
     ]
   },
   "gallery": {
-    "eyebrow": "Galerie",
-    "title": "Une énergie brute",
+    "eyebrow": "Photos & Vidéos",
+    "title": "Galerie",
     "imagesFolder": "assets/gallery/images",
     "videosFolder": "assets/gallery/videos",
     "images": [
