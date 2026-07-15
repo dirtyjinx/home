@@ -352,30 +352,72 @@ ul { list-style: none; margin: 0; padding: 0; }
    Social links (shared — about + contact)
    ========================================================================== */
 
-.socials {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.85rem;
-}
 .social-link {
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    justify-content: center;
-    width: 46px;
-    height: 46px;
-    border-radius: 50%;
-    border: 1px solid var(--line);
+    text-decoration: none;
+    color: var(--ink);
     background: var(--bg-card);
-    color: var(--ink-soft);
-    font-size: 1.2rem;
+    border: 1px solid var(--line);
     transition: var(--transition);
 }
 .social-link:hover {
     color: #fff;
-    border-color: transparent;
-    background: var(--accent-gradient);
+    border-color: rgba(255, 255, 255, 0.22);
     transform: translateY(-3px);
-    box-shadow: 0 10px 26px -8px var(--accent-glow);
+    box-shadow: 0 12px 28px -12px rgba(0, 0, 0, 0.7);
+}
+.social-brand {
+    display: grid;
+    place-items: center;
+    color: #fff;
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14);
+}
+.social-name { font-weight: 600; }
+
+/* Badges (about) — icône couleur de marque + nom, en ligne */
+.socials-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+.socials-badges .social-link {
+    gap: 0.65rem;
+    padding: 0.4rem 1.15rem 0.4rem 0.4rem;
+    border-radius: 100px;
+    font-size: 0.95rem;
+}
+.socials-badges .social-brand {
+    width: 36px;
+    height: 36px;
+    font-size: 1.1rem;
+}
+
+/* Grille (contact) — carrés 3×2, cliquables et compacts sur mobile */
+.socials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    margin-top: 0.25rem;
+}
+.socials-grid .social-link {
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.55rem;
+    aspect-ratio: 1;
+    padding: 0.75rem;
+    border-radius: var(--radius);
+    color: var(--ink-soft);
+    font-size: 0.78rem;
+    text-align: center;
+}
+.socials-grid .social-link:hover { color: #fff; }
+.socials-grid .social-brand {
+    width: 44px;
+    height: 44px;
+    font-size: 1.35rem;
 }
 
 /* ==========================================================================
@@ -738,7 +780,7 @@ ul { list-style: none; margin: 0; padding: 0; }
     color: var(--ink);
     overflow-wrap: anywhere;
 }
-.contact-channels .socials { margin-top: 0.5rem; }
+.contact-channels .socials-grid { margin-top: 0.5rem; }
 
 /* ==========================================================================
    Footer

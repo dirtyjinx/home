@@ -5,12 +5,12 @@
 let config = null;
 let galleryMedia = [];
 
-const SOCIAL_ICONS = {
-    facebook: 'bi-facebook',
-    instagram: 'bi-instagram',
-    tiktok: 'bi-tiktok',
-    youtube: 'bi-youtube',
-    soundcloud: 'bi-soundwave'
+const SOCIAL_META = {
+    facebook:   { icon: 'bi-facebook',  label: 'Facebook',   color: '#1877F2' },
+    instagram:  { icon: 'bi-instagram', label: 'Instagram',  color: 'linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888)' },
+    tiktok:     { icon: 'bi-tiktok',    label: 'TikTok',     color: '#000' },
+    youtube:    { icon: 'bi-youtube',   label: 'YouTube',    color: '#FF0000' },
+    soundcloud: { icon: 'bi-soundwave', label: 'SoundCloud', color: '#FF5500' }
 };
 
 // --- Boot ------------------------------------------------------------------
@@ -68,15 +68,16 @@ function buildSocials(container) {
     if (!container) return;
     container.innerHTML = '';
     const social = config.contact.social || {};
-    Object.keys(SOCIAL_ICONS).forEach(key => {
+    Object.keys(SOCIAL_META).forEach(key => {
         if (!social[key]) return;
+        const meta = SOCIAL_META[key];
         const a = document.createElement('a');
         a.className = 'social-link';
         a.href = social[key];
         a.target = '_blank';
         a.rel = 'noopener';
-        a.setAttribute('aria-label', key);
-        a.innerHTML = `<i class="bi ${SOCIAL_ICONS[key]}"></i>`;
+        a.setAttribute('aria-label', meta.label);
+        a.innerHTML = `<span class="social-brand" style="background:${meta.color}"><i class="bi ${meta.icon}"></i></span><span class="social-name">${meta.label}</span>`;
         container.appendChild(a);
     });
 }
