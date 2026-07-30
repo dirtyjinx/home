@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dirty Jinx - Réseaux sociaux</title>
     <meta name="description" content="Retrouvez Dirty Jinx sur tous les réseaux : Instagram, TikTok, YouTube, Facebook, SoundCloud.">
-    <meta name="theme-color" content="#08060f">
+    <meta name="theme-color" content="#131110">
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="assets/favicon/favicon-96x96.png" sizes="96x96" />
@@ -38,14 +38,23 @@
         }
 
         :root {
-            --bg: #08060f;
-            --ink: #f5f2fb;
-            --ink-muted: #8b82a3;
-            --line: rgba(255, 255, 255, 0.10);
-            --accent: #a855f7;
-            --accent-2: #6366f1;
+            /* Béton nuit + sprays — même système que la home */
+            --bg: #131110;
+            --bg-card: #1e1a16;
+            --ink: #f0e9dc;
+            --ink-soft: #cfc5b3;
+            --ink-muted: #978c7b;
+            --line: rgba(240, 233, 220, 0.16);
+            --cyan: #3cc7d3;
+            --orange: #ff5e1c;
+            --acid: #b8e63b;
+            --pink: #ff3d7a;
+            --yellow: #ffc93c;
+            --acc: var(--cyan);
+            --acc-ink: #12100d;
             --sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
             --display: 'Syne', var(--sans);
+            --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -67,22 +76,46 @@
             position: relative;
         }
 
-        /* Animated club background */
+        /* Grain béton par-dessus tout */
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: 500;
+            pointer-events: none;
+            opacity: 0.16;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)' opacity='0.42'/%3E%3C/svg%3E");
+        }
+
+        ::selection { background: var(--acid); color: #12100d; }
+
+        /* Halos de spray animés */
         .bg {
             position: fixed;
             inset: -20%;
             z-index: -1;
             background:
-                radial-gradient(40% 50% at 25% 20%, rgba(168, 85, 247, 0.30), transparent 60%),
-                radial-gradient(45% 55% at 80% 75%, rgba(99, 102, 241, 0.28), transparent 60%),
-                radial-gradient(120% 120% at 20% 10%, #1a0f3a 0%, #0b0820 45%, #05040c 100%);
-            background-color: #05040c;
+                radial-gradient(40% 50% at 25% 18%, rgba(60, 199, 211, 0.20), transparent 62%),
+                radial-gradient(45% 55% at 82% 78%, rgba(255, 94, 28, 0.16), transparent 62%),
+                radial-gradient(120% 120% at 20% 10%, #1c1815 0%, #151211 45%, #0e0c0a 100%);
+            background-color: #0e0c0a;
             animation: clubShift 18s ease-in-out infinite alternate;
         }
         @keyframes clubShift {
             0%   { transform: translate(0, 0) scale(1); }
             50%  { transform: translate(2%, -2%) scale(1.06); }
             100% { transform: translate(-2%, 2%) scale(1.03); }
+        }
+
+        /* Liseré multicolore façon footer du site */
+        .stripe {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 4px;
+            z-index: 400;
+            background: linear-gradient(90deg, var(--cyan), var(--orange), var(--acid), var(--pink), var(--yellow));
         }
 
         .wrap {
@@ -98,10 +131,10 @@
         }
 
         .logo {
-            width: min(58vw, 230px);
+            width: min(48vw, 160px);
             height: auto;
-            margin: 0 auto 1.25rem;
-            filter: drop-shadow(0 10px 40px rgba(0, 0, 0, 0.55));
+            margin: 0 auto 1.1rem;
+            filter: drop-shadow(0 10px 40px rgba(0, 0, 0, 0.7)) drop-shadow(0 0 26px rgba(60, 199, 211, 0.26));
             display: block;
         }
 
@@ -109,54 +142,79 @@
             font-family: var(--display);
             font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 0.02em;
-            font-size: 1.4rem;
-            margin-bottom: 0.4rem;
+            letter-spacing: 0.005em;
+            font-size: clamp(1.75rem, 8vw, 2.35rem);
+            line-height: 0.98;
+            transform: rotate(-1.5deg);
+            text-shadow: 0.05em 0.05em 0 color-mix(in srgb, var(--acc) 85%, transparent);
+            margin-bottom: 0.85rem;
         }
+
+        /* Étiquette façon ruban de masquage taggué */
         .sub {
-            color: var(--ink-muted);
-            font-size: 0.95rem;
-            letter-spacing: 0.02em;
-            margin-bottom: 2rem;
+            display: inline-block;
+            background: var(--yellow);
+            color: var(--acc-ink);
+            font-family: var(--display);
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.26em;
             text-transform: uppercase;
+            padding: 0.3rem 0.9rem 0.3rem 1.05rem;
+            margin-bottom: 1.7rem;
+            transform: rotate(-2deg);
+            clip-path: polygon(0 12%, 2% 0, 98% 4%, 100% 16%, 99% 88%, 97% 100%, 3% 96%, 0 84%);
         }
 
         .links {
             display: flex;
             flex-direction: column;
-            gap: 0.85rem;
+            gap: 0.6rem;
         }
 
         .social-link {
             display: flex;
             align-items: center;
             gap: 1rem;
-            padding: 0.95rem 1.1rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--line);
-            border-radius: 16px;
+            padding: 0.7rem 1rem;
+            background: var(--bg-card);
+            border: 2px solid var(--line);
             text-decoration: none;
             color: var(--ink);
+            font-family: var(--display);
             font-size: 1.05rem;
-            font-weight: 600;
-            transition: transform 0.15s ease, background 0.2s ease, border-color 0.2s ease;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            transition: transform var(--transition), rotate var(--transition), border-color var(--transition), box-shadow var(--transition);
         }
+        /* Une couleur de bombe par réseau */
+        .social-link:nth-child(1) { --acc: var(--cyan); rotate: -0.7deg; }
+        .social-link:nth-child(2) { --acc: var(--pink); rotate: 0.6deg; }
+        .social-link:nth-child(3) { --acc: var(--acid); rotate: -0.5deg; }
+        .social-link:nth-child(4) { --acc: var(--orange); rotate: 0.7deg; }
+        .social-link:nth-child(5) { --acc: var(--yellow); rotate: -0.6deg; }
         .social-link:hover {
-            background: rgba(255, 255, 255, 0.09);
-            border-color: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
+            rotate: 0deg;
+            transform: translate(-2px, -2px);
+            border-color: var(--acc);
+            box-shadow: 6px 6px 0 color-mix(in srgb, var(--acc) 50%, transparent);
         }
-        .social-link:active { transform: scale(0.98); }
+        .social-link:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0 color-mix(in srgb, var(--acc) 50%, transparent);
+        }
 
         .social-icon {
-            width: 46px;
-            height: 46px;
-            border-radius: 12px;
+            width: 42px;
+            height: 42px;
+            border-radius: 2px;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
-            box-shadow: 0 6px 18px -8px rgba(0, 0, 0, 0.6);
+            transform: rotate(-2deg);
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14);
         }
         .social-icon svg { width: 24px; height: 24px; }
 
@@ -167,28 +225,48 @@
             height: 18px;
             color: var(--ink-muted);
             flex-shrink: 0;
-            transition: transform 0.15s ease, color 0.2s ease;
+            transition: transform var(--transition), color var(--transition);
         }
-        .social-link:hover .chevron { color: var(--ink); transform: translateX(3px); }
+        .social-link:hover .chevron { color: var(--acc); transform: translateX(3px); }
 
         .icon-facebook { background: #1877F2; }
         .icon-instagram { background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
         .icon-youtube { background: #FF0000; }
-        .icon-tiktok { background: #000; border: 1px solid rgba(255,255,255,0.18); }
+        .icon-tiktok { background: #000; }
         .icon-soundcloud { background: #FF5500; }
 
         .site-link {
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-            margin-top: 2rem;
-            color: var(--ink-muted);
+            gap: 0.55rem;
+            margin-top: 1.7rem;
+            padding: 0.6rem 1.3rem;
+            border: 2px solid var(--yellow);
+            color: var(--ink);
             text-decoration: none;
-            font-size: 0.9rem;
-            letter-spacing: 0.04em;
-            transition: color 0.2s ease;
+            font-family: var(--display);
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            transform: rotate(-1.5deg);
+            transition: var(--transition);
         }
-        .site-link:hover { color: var(--ink); }
+        .site-link:hover {
+            background: var(--yellow);
+            color: #12100d;
+            box-shadow: 4px 4px 0 rgba(240, 233, 220, 0.35);
+        }
+
+        /* Écrans courts : on comprime le bloc titre pour garder tout sans scroll */
+        @media (max-height: 760px) {
+            .logo { width: min(38vw, 132px); margin-bottom: 0.8rem; }
+            .lead { font-size: clamp(1.5rem, 6.5vw, 2rem); margin-bottom: 0.7rem; }
+            .sub { margin-bottom: 1.15rem; }
+            .links { gap: 0.5rem; }
+            .social-link { padding: 0.6rem 1rem; }
+            .site-link { margin-top: 1.1rem; }
+        }
 
         @media (prefers-reduced-motion: reduce) {
             .bg, .wrap { animation: none; }
@@ -197,6 +275,7 @@
 </head>
 <body>
     <div class="bg" aria-hidden="true"></div>
+    <div class="stripe" aria-hidden="true"></div>
 
     <main class="wrap">
         <a href="index.html">

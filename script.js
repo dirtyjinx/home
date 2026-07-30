@@ -37,7 +37,6 @@ function initializePage() {
         if (footerLogo) footerLogo.src = config.hero.logoIcon;
     }
 
-    initHeroVideo();
     loadAbout();
     loadConcerts();
     loadGallery();
@@ -46,20 +45,6 @@ function initializePage() {
 
     initNav();
     initReveal();
-}
-
-function initHeroVideo() {
-    const heroVideo = document.getElementById('heroVideo');
-    // Sur connexion lente / mode économie de données : on garde le dégradé animé
-    // et on ne télécharge pas la vidéo (lourde).
-    const conn = navigator.connection || navigator.webkitConnection || navigator.mozConnection;
-    const effType = conn && conn.effectiveType;
-    const slow = conn && (conn.saveData || effType === 'slow-2g' || effType === '2g');
-    if (slow) return;
-
-    heroVideo.addEventListener('canplay', () => heroVideo.classList.add('loaded'), { once: true });
-    heroVideo.preload = 'auto';
-    heroVideo.src = config.hero.backgroundVideo;
 }
 
 // --- Shared helpers --------------------------------------------------------
