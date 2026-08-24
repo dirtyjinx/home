@@ -48,12 +48,17 @@ raw, out = os.environ["RAW"], os.environ["OUT"]
 dpi, q = int(os.environ["DPI"]), int(os.environ["QUALITY"])
 src = fitz.open(raw)
 doc = fitz.open()
+links = 0
 for p in src:
     img = p.get_pixmap(dpi=dpi).tobytes("jpeg", jpg_quality=q)
     page = doc.new_page(width=p.rect.width, height=p.rect.height)
     page.insert_image(page.rect, stream=img)
+    for l in p.get_links():
+        page.insert_link(l)
+        links += 1
+doc.set_toc(src.get_toc())
 doc.save(out, deflate=True, garbage=4)
-print(f"   {out}  ({os.path.getsize(out)//1024} KB, {len(doc)} pages)")
+print(f"   {out}  ({os.path.getsize(out)//1024} KB, {len(doc)} pages, {links} liens)")
 PY
 
   rm -rf "$TMP"
